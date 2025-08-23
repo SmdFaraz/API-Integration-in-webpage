@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieVault - Search & Review Movies</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                    MovieVault
+            </div>
+    
+            <div class="search-container">
+            <input type="text" id="searchInput" class="search-bar" placeholder="Search movies...">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+    
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link">Home</a></li>
+                <li><a href="#" class="nav-link">Movies</a></li>
+                <li><a href="#" class="nav-link">Genres</a></li>
+                <li><a href="#" class="nav-link">About</a></li>
+        
+        <!-- Authentication elements -->
+                <li><a href="#" class="signin-btn">Sign In</a></li>
+                <li id="userProfile" class="user-profile" style="display: none;">
+                    <div class="profile-info">
+                        <img id="userAvatar" src="" alt="User Avatar" class="user-avatar">
+                        <span id="userName"></span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="#" id="viewProfile">Profile</a>
+                        <a href="#" id="myWatchlist">My Watchlist</a>
+                        <a href="#" id="myReviews">My Reviews</a>
+                        <a href="#" id="logout">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-carousel">
+                 <div class="hero-slide active" id="heroSlide">
+                    <div class="hero-content">
+                        <h1>Discover Amazing Movies</h1>
+                        <p>Search, review, and track your favorite films</p>
+                        <button class="cta-btn">Explore Now</button>
+                    </div>
+                    <div class="hero-image">
+                        <div class="movie-poster-large">
+                            <img id="modalPoster" src="" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trending Movies -->
+        <section class="section" id="trending">
+            <div class="container">
+                <h2 class="section-title">Trending Movies</h2>
+                <div class="movie-grid" id="trendingMovies">
+                    <!-- Movies will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Genres -->
+        <section class="section" id="genres">
+            <div class="container">
+                <h2 class="section-title">Browse by Genre</h2>
+                <div class="genre-grid">
+                    <div class="genre-card" data-genre="action">
+                        <i class="fas fa-fist-raised"></i>
+                        <span>Action</span>
+                    </div>
+                    <div class="genre-card" data-genre="comedy">
+                        <i class="fas fa-laugh"></i>
+                        <span>Comedy</span>
+                    </div>
+                    <div class="genre-card" data-genre="drama">
+                        <i class="fas fa-theater-masks"></i>
+                        <span>Drama</span>
+                    </div>
+                    <div class="genre-card" data-genre="horror">
+                        <i class="fas fa-ghost"></i>
+                        <span>Horror</span>
+                    </div>
+                    <div class="genre-card" data-genre="romance">
+                        <i class="fas fa-heart"></i>
+                        <span>Romance</span>
+                    </div>
+                    <div class="genre-card" data-genre="sci-fi">
+                        <i class="fas fa-rocket"></i>
+                        <span>Sci-Fi</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top Rated -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Top Rated Movies</h2>
+                <div class="movie-grid" id="topRatedMovies">
+                    <!-- Movies will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Movie Detail Modal -->
+   <!-- Movie Detail Modal -->
+<div class="modal" id="movieModal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div class="modal-body">
+            <div class="movie-detail">
+                <div class="movie-poster-large">
+                    <img id="modalPoster" src="" alt="Movie Poster">
+                </div>
+                <div class="movie-info">
+                    <h1 id="modalTitle"></h1>
+                    <div class="movie-meta">
+                        <span id="modalYear"></span>
+                        <span id="modalGenre"></span>
+                        <span id="modalRuntime"></span>
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <span id="modalRating"></span>
+                    </div>
+                    <p id="modalPlot"></p>
+                    <div class="cast" id="modalCast"></div>
+                    <div class="action-buttons">
+                        <button class="btn-primary">Add to Watchlist</button>
+                        <button class="btn-secondary" onclick="openReviewForm()">Write Review</button>
+                    </div>
+                </div>
+            </div>
+            <div class="reviews-section">
+                <h3>User Reviews</h3>
+                <div class="reviews-list" id="reviewsList"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Review Form Modal -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="review-form">
+                <h2>Write a Review</h2>
+                <form id="reviewForm">
+                    <div class="star-rating">
+                        <span class="star" data-rating="1">★</span>
+                        <span class="star" data-rating="2">★</span>
+                        <span class="star" data-rating="3">★</span>
+                        <span class="star" data-rating="4">★</span>
+                        <span class="star" data-rating="5">★</span>
+                    </div>
+                    <textarea placeholder="Share your thoughts about this movie..." required></textarea>
+                    <button type="submit" class="btn-primary">Submit Review</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add these modals after your existing content -->
+<div id="authModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div id="authContainer">
+            <!-- Sign In Form -->
+            <div id="signInForm" class="auth-form">
+                <h2>Welcome Back</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <input type="email" id="loginEmail" placeholder="Email" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="submit" class="btn-primary auth-btn">Sign In</button>
+                </form>
+                <p class="auth-switch">
+                    Don't have an account? 
+                    <span id="showSignUp" class="link">Sign up here</span>
+                </p>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div id="signUpForm" class="auth-form" style="display: none;">
+                <h2>Create Account</h2>
+                <form id="registerForm">
+                    <div class="input-group">
+                        <input type="text" id="registerName" placeholder="Full Name" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="registerEmail" placeholder="Email" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="registerPassword" placeholder="Password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="submit" class="btn-primary auth-btn">Create Account</button>
+                </form>
+                <p class="auth-switch">
+                    Already have an account? 
+                    <span id="showSignIn" class="link">Sign in here</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- User Profile Dropdown (add this to your navbar) -->
+<div id="userProfile" class="user-profile" style="display: none;">
+    <div class="profile-info">
+        <img id="userAvatar" src="" alt="User Avatar" class="user-avatar">
+        <span id="userName"></span>
+        <i class="fas fa-chevron-down"></i>
+    </div>
+    <div class="dropdown-menu">
+        <a href="#" id="viewProfile">Profile</a>
+        <a href="#" id="myWatchlist">My Watchlist</a>
+        <a href="#" id="myReviews">My Reviews</a>
+        <a href="#" id="logout">Logout</a>
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-film"></i>
+                        <span>MovieVault</span>
+                    </div>
+                    <p>Your ultimate destination for movie discovery and reviews.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#trending">Trending</a></li>
+                        <li><a href="#genres">Genres</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MovieVault. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="loadingSpinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading movies...</p>
+    </div>
+
+    
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
