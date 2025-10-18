@@ -1,6 +1,6 @@
 # MovieVault - Movie Discovery Web Application
 
-[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/SmdFaraz/API-Integration-in-webpage)
+
 
 MovieVault is a modern, responsive web application for discovering and reviewing movies. It leverages The Movie Database (TMDB) API to provide users with up-to-date information on trending, top-rated, and searchable movies. The application features a sleek, dark-themed interface, detailed movie modals, and a client-side user authentication system for personalized experiences.
 
